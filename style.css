@@ -35,7 +35,7 @@ body{
     color: red;
   }
 
-audio{
+audio, .play{
     position: absolute;
     left: 50%;
     top: 50%;
