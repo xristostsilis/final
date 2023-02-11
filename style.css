@@ -1,5 +1,5 @@
 body{
-    background: linear-gradient(295deg, #032A5C, #343A40, #FA9319);
+    background: linear-gradient(295deg, #191d1f, #c2c2c2, #7b7b7b);
     background-size: 600% 600%;
 
     -webkit-animation: AnimationName 26s ease infinite;
@@ -32,8 +32,12 @@ body{
 
 
 .fa.fa-heart {
-    color: red;
+    color: rgb(223, 35, 35);
   }
+
+.fa.fa-globe{
+    color: rgb(41, 150, 37);
+}
 
 
 
@@ -44,7 +48,7 @@ body{
 
 footer {
     position: static;
-    bottom: 0;
+    bottom: 0px;
     height: 100px;
   }
 
