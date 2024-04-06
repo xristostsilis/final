@@ -30,6 +30,25 @@ body{
 }
 
 
+#albumArtwork {
+    width: 174px; /* Set width to match the artwork dimensions */
+    height: 174px; /* Set height to match the artwork dimensions */
+    border-radius: 8px; /* Add some border radius for rounded corners */
+    background-color: #f0f0f0; /* Set a background color */
+    padding: 8px; /* Add padding around the artwork */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add a subtle box shadow */
+    display: flex; /* Use flexbox */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    margin: 0 auto; /* Auto margin for horizontal centering */
+  }
+  
+  #albumArtwork img {
+    max-width: 100%; /* Ensure the image fills the entire div */
+    max-height: 100%; /* Ensure the image fills the entire div */
+    border-radius: 4px; /* Add border radius to the image for rounded corners */
+  }
+  
 
 .fa.fa-heart {
     color: rgb(223, 35, 35);

@@ -23,6 +23,8 @@
 
 <body>
 
+  
+
   <div class="container-fluid" style="margin-top:0%;">
     <div class="row width: 5% ">
 
@@ -52,11 +54,18 @@
 
   <div class="container">
 
-    <audio id="radioPlayer" controls autoplay>
+    <audio id="radioPlayer" controls>
       <source src="https://radio.themapatras.gr/radio" type="audio/mpeg">
       Your browser does not support the audio element.
     </audio>
     <div id="currentSong"></div>
+
+    <div style="padding: 8px;" id="paddingyes"></div>
+    <!-- Add a placeholder image -->
+<div id="albumArtwork">
+  
+</div>
+
   </div>
 
   <style>
@@ -85,6 +94,8 @@
 
 <script>
 
+  
+
 
 document.addEventListener("DOMContentLoaded", function() {
   // Function to fetch current song playing information from the Icecast status JSON
@@ -98,6 +109,7 @@ document.addEventListener("DOMContentLoaded", function() {
       // Displaying the currently playing song
       const currentSongElement = document.getElementById("currentSong");
       currentSongElement.textContent = "Τώρα: " + currentSong;
+      updateAlbumArtwork();
     })
     .catch(error => {
       console.error("Error fetching current song:", error);
@@ -110,6 +122,99 @@ document.addEventListener("DOMContentLoaded", function() {
   // Fetch current song every 30 seconds
   setInterval(fetchCurrentSong, 30000);
 });
+
+
+function searchTrackInfo(artist, title) {
+    var apiKey = 'e3980dcd425e86f0c45ca130e7317820';
+    var apiUrl = `https://ws.audioscrobbler.com/2.0/?method=track.getInfo&api_key=${apiKey}&artist=${encodeURIComponent(artist)}&track=${encodeURIComponent(title)}&format=json`;
+
+    fetch(apiUrl)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Last.fm API response:', data);
+            if (data.track && data.track.album && data.track.album.image && data.track.album.image.length > 0) {
+                // Find the image with size 'extralarge' or 'large'
+                var imageUrl = data.track.album.image.find(image => image.size === 'extralarge' || image.size === 'large')['#text'];
+                console.log('Album artwork URL:', imageUrl);
+                document.getElementById('albumArtwork').innerHTML = `<img src="${imageUrl}" alt="Album Artwork">`;
+            } else {
+                console.error('No album artwork found in the API response. Trying to find artist photo.');
+
+                // If album artwork is not found, try to fetch artist image
+                fetchArtistImage(artist);
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching data from Last.fm:', error);
+        });
+}
+
+function fetchArtistImage(artist) {
+    // Construct the URL to fetch the artist info
+    var artistInfoUrl = `https://ws.audioscrobbler.com/2.0/?method=artist.getInfo&artist=${encodeURIComponent(artist)}&api_key=${apiKey}&format=json`;
+
+    fetch(artistInfoUrl)
+        .then(response => response.json())
+        .then(data => {
+            console.log('Artist data:', data);
+            if (data.artist && data.artist.image && data.artist.image.length > 0) {
+                // Find the image with size 'extralarge' or 'large'
+                var artistImageUrl = data.artist.image.find(image => image.size === 'extralarge' || image.size === 'large')['#text'];
+                console.log('Artist photo URL:', artistImageUrl);
+                document.getElementById('albumArtwork').innerHTML = `<img src="${artistImageUrl}" alt="Artist Image">`;
+            } else {
+                console.error('No artist image found. Using default placeholder.');
+                // If artist image is not found, use a default placeholder image
+                document.getElementById('albumArtwork').innerHTML = `<img src="/images/refrershedpics/logo_transparent.png" alt="Placeholder Artwork">`;
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching artist data:', error);
+        });
+}
+
+
+function updateAlbumArtwork() {
+    var currentSongElement = document.getElementById('currentSong');
+    var currentSong = currentSongElement.textContent.trim();
+    console.log('Current song:', currentSong);
+    
+    var prefix = 'Τώρα: ';
+    if (currentSong.startsWith(prefix)) {
+        currentSong = currentSong.slice(prefix.length); // Remove the prefix
+    }
+    
+    var songInfo = currentSong.split(' - ');
+    if (songInfo.length === 2) {
+        var artist = songInfo[0].trim();
+        var title = songInfo[1].trim();
+        console.log('Artist:', artist);
+        console.log('Title:', title);
+        
+        // Display the placeholder image
+        document.getElementById('albumArtwork').innerHTML = `<img src="/images/refrershedpics/logo_transparent.png" alt="Placeholder Artwork">`;
+        
+        searchTrackInfo(artist, title);
+    } else {
+        console.error('Invalid song information:', currentSong);
+    }
+}
+
+
+
+
+// Set the interval to update the album artwork (e.g., every 60 seconds)
+setInterval(updateAlbumArtwork, 60000);
+
+// Assume artworkWidth and artworkHeight are variables containing the dimensions of the artwork
+
+
+
 
 
 
