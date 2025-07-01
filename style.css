@@ -79,3 +79,72 @@ footer {
 
 
 
+/* Add to your existing CSS file */
+
+/* Frequency display */
+.frequency-display {
+    color: #fff;
+    text-shadow: 0 0 10px rgba(0,0,0,0.5);
+    font-weight: bold;
+    letter-spacing: 2px;
+    animation: pulse 2s infinite;
+  }
+  
+  @keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+  }
+  
+  /* Advertising section */
+  .advertising-section {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 25px;
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .advertising-section h3 {
+    color: #ffcc00;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  
+  .contact-info {
+    background: rgba(0, 0, 0, 0.2);
+    padding: 15px;
+    border-radius: 10px;
+    margin: 20px auto;
+    max-width: 400px;
+  }
+  
+  .contact-info p {
+    font-size: 1.2em;
+    margin: 10px 0;
+  }
+  
+  .contact-info a {
+    color: #4dabf7;
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  
+  .contact-info a:hover {
+    color: #a5d8ff;
+    text-decoration: underline;
+  }
+  
+  .benefits p {
+    margin: 10px 0;
+    font-style: italic;
+  }
+  
+  /* Icons */
+  .fa-phone, .fa-envelope, .fa-check {
+    margin-right: 10px;
+    color: #ffcc00;
+  }
